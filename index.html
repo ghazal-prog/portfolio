@@ -634,6 +634,40 @@ footer{background:var(--ink);border-top:1px solid rgba(245,166,35,.09);
     }
   }
 }
+
+/* ── EXP SCROLL INDICATOR ─────────────────────────── */
+.exp-dots{
+  display:flex!important;align-items:center;justify-content:center;
+  gap:.65rem;margin-top:1.6rem;padding:.5rem 0;
+  position:relative;z-index:10;
+}
+.exp-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(245,166,35,.18);
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  flex-shrink:0;cursor:pointer;
+}
+.exp-dot.active{
+  background:var(--y);
+  width:22px;border-radius:4px;
+  box-shadow:0 0 8px rgba(245,166,35,.5);
+}
+.exp-hint{
+  display:flex!important;align-items:center;gap:.6rem;
+  font-size:.62rem;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:rgba(245,166,35,.5);
+  margin-top:.7rem;justify-content:center;padding-bottom:.5rem;
+  position:relative;z-index:10;
+}
+.exp-hint-arrow{
+  display:flex;align-items:center;gap:3px;
+  animation:hintSlide 2s ease-in-out infinite;
+}
+.exp-hint-arrow.right{animation-direction:alternate;}
+@keyframes hintSlide{
+  0%,100%{transform:translateX(0);opacity:.4;}
+  50%{transform:translateX(4px);opacity:.9;}
+}
 </style>
 </head>
 <body>
@@ -931,6 +965,21 @@ footer{background:var(--ink);border-top:1px solid rgba(245,166,35,.09);
       </article>
     </div>
   </div>
+
+  <!-- Scroll dots indicator -->
+  <div class="exp-dots" id="exp-dots" aria-hidden="true">
+    <div class="exp-dot active"></div>
+    <div class="exp-dot"></div>
+    <div class="exp-dot"></div>
+    <div class="exp-dot"></div>
+    <div class="exp-dot"></div>
+  </div>
+  <div class="exp-hint" aria-hidden="true">
+    <span class="exp-hint-arrow">&#x2190;&#x2190;</span>
+    <span id="exp-hint-txt">Drag to explore</span>
+    <span class="exp-hint-arrow right">&#x2192;&#x2192;</span>
+  </div>
+
 </section>
 
 <!-- ABOUT -->
@@ -1640,6 +1689,35 @@ document.addEventListener("DOMContentLoaded",function(){
     },{threshold:.08});
     document.querySelectorAll(".reveal").forEach(function(el){obs.observe(el);});
   }
+
+
+  /* Experience dots indicator */
+  (function(){
+    var scroll=document.querySelector(".exp-scroll");
+    var dots=document.querySelectorAll(".exp-dot");
+    if(!scroll||!dots.length)return;
+
+    function updateDots(){
+      var max=scroll.scrollWidth-scroll.clientWidth;
+      if(max<=0){dots[0].classList.add("active");return;}
+      var progress=scroll.scrollLeft/max;
+      var active=Math.min(Math.round(progress*(dots.length-1)),dots.length-1);
+      dots.forEach(function(d,i){d.classList.toggle("active",i===active);});
+    }
+
+    // Click dot to scroll to card
+    dots.forEach(function(dot,i){
+      dot.addEventListener("click",function(){
+        var max=scroll.scrollWidth-scroll.clientWidth;
+        scroll.scrollTo({left:(i/(dots.length-1))*max,behavior:"smooth"});
+      });
+    });
+
+    scroll.addEventListener("scroll",updateDots,{passive:true});
+    updateDots();
+    // Re-check after GSAP loads
+    setTimeout(updateDots,1500);
+  })();
 
 }); /* end DOMContentLoaded */
 </script>
