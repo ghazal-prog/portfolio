@@ -1169,139 +1169,193 @@ if (sl) skObs.observe(sl);
 </script>
 
 <script>
-// ============ LANGUAGE SYSTEM ============
-const translations = {
+// LANGUAGE SYSTEM
+var T = {
   en: {
-    dir: "ltr",
-    "nav-portfolio": "Portfolio",
-    "nav-about": "About",
-    "nav-experience": "Experience",
-    "nav-services": "Services",
-    "nav-contact": "Contact",
-    "svc1-title": "Brand Identity",
-    "svc1-desc": "Logo, color system, typography, and full brand guidelines tailored to your business vision.",
-    "svc2-title": "Marketing Materials",
-    "svc2-desc": "Brochures, banners, flyers, and promotional campaigns that enhance brand visibility.",
-    "svc3-title": "Social Media Design",
-    "svc3-desc": "Consistent, engaging visual content for all social platforms to grow your audience.",
-    "svc4-title": "IT Support",
-    "svc4-desc": "Hardware, software installation, network configuration, and full IT infrastructure management.",
-    "ph-name": "Your Name",
-    "ph-email": "Email Address",
-    "ph-subject": "Subject",
-    "ph-msg": "Tell me about your project...",
-    "btn-send": "Send Message →",
-    "exp-badge-big": "6+",
-    "exp-badge-small": "Years<br>Exp."
+    badge: "IT & Graphic Designer — Fes, Morocco",
+    title: "Creative Designer · IT Specialist",
+    desc: "Graphic designer & IT specialist with 6+ years of experience inside and outside Morocco. Expert in brand identities, marketing materials, and IT support. Currently available in Morocco.",
+    btn1: "View Portfolio", btn2: "Behance ↗", btncv: "Download CV",
+    hire: "Hire Me",
+    s1n: "Years Exp.", s2n: "Projects", s3n: "Platforms", s4n: "Brand Growth",
+    sec1: "01 — Portfolio", sec2: "02 — Experience", sec3: "03 — About Me", sec4: "04 — Services", sec5: "05 — Contact",
+    t1: "Selected", t1y: "Works",
+    t2: "Professional", t2y: "Journey",
+    t3a: "Creative", t3ay: "Mind", t3b: "Technical", t3by: "Soul",
+    t4: "What I", t4y: "Offer",
+    t5a: "Let's Work", t5b: "Together",
+    about1: "Graphic designer & IT specialist with 6+ years of experience gained inside and outside Morocco. I combine creative visual sense with technical efficiency to deliver complete solutions.",
+    about2: "Holds a Diploma in Computer Networks from Al Amal Center, Fes. Speaks Arabic natively, English fluently, and French. Based in Fes, Morocco — available locally and remotely.",
+    csub: "Currently available in Morocco for new projects locally and remotely. Contact me and I'll reply shortly.",
+    svc1t: "Brand Identity", svc1d: "Logo, color system, typography, and full brand guidelines tailored to your business vision.",
+    svc2t: "Marketing Materials", svc2d: "Brochures, banners, flyers, and promotional campaigns that enhance brand visibility.",
+    svc3t: "Social Media Design", svc3d: "Consistent, engaging visual content for all social platforms to grow your audience.",
+    svc4t: "IT Support", svc4d: "Hardware, software installation, network configuration, and full IT infrastructure management.",
+    fn: "Your Name", fe: "Email Address", fs: "Subject", fm: "Tell me about your project...", fb: "Send Message →",
+    expb: "6+", exps: "Years<br>Exp.", copy: "© 2025 — All Rights Reserved", dir: "ltr"
   },
   fr: {
-    dir: "ltr",
-    "nav-portfolio": "Portfolio",
-    "nav-about": "À Propos",
-    "nav-experience": "Expérience",
-    "nav-services": "Services",
-    "nav-contact": "Contact",
-    "svc1-title": "Identité Visuelle",
-    "svc1-desc": "Logo, charte graphique et guide de marque complet adapté à votre vision.",
-    "svc2-title": "Supports Marketing",
-    "svc2-desc": "Brochures, bannières, flyers et campagnes promotionnelles pour renforcer votre visibilité.",
-    "svc3-title": "Réseaux Sociaux",
-    "svc3-desc": "Contenu visuel cohérent et engageant pour toutes les plateformes sociales.",
-    "svc4-title": "Support IT",
-    "svc4-desc": "Installation matériel et logiciel, configuration réseau et gestion de l’infrastructure IT.",
-    "ph-name": "Votre Nom",
-    "ph-email": "Adresse Email",
-    "ph-subject": "Sujet",
-    "ph-msg": "Parlez-moi de votre projet...",
-    "btn-send": "Envoyer →",
-    "exp-badge-big": "6+",
-    "exp-badge-small": "Ans<br>Exp."
+    badge: "Designer Graphique & IT — Fès, Maroc",
+    title: "Designer Créatif · Spécialiste IT",
+    desc: "Designer graphique & spécialiste IT avec plus de 6 ans d'expérience au Maroc et à l'étranger. Expert en identités visuelles et supports marketing. Disponible au Maroc.",
+    btn1: "Voir Portfolio", btn2: "Behance ↗", btncv: "Télécharger CV",
+    hire: "M'Engager",
+    s1n: "Ans Exp.", s2n: "Projets", s3n: "Plateformes", s4n: "Croissance",
+    sec1: "01 — Portfolio", sec2: "02 — Expérience", sec3: "03 — À Propos", sec4: "04 — Services", sec5: "05 — Contact",
+    t1: "Travaux", t1y: "Sélectionnés",
+    t2: "Parcours", t2y: "Professionnel",
+    t3a: "Esprit", t3ay: "Créatif", t3b: "Âme", t3by: "Technique",
+    t4: "Ce Que Je", t4y: "Propose",
+    t5a: "Travaillons", t5b: "Ensemble",
+    about1: "Designer graphique & spécialiste IT avec plus de 6 ans d'expérience acquise au Maroc et à l'étranger. Je combine sens créatif et efficacité technique.",
+    about2: "Diplôme en Réseaux Informatiques, Centre Al Amal, Fès. Parle arabe, français et anglais. Basé à Fès — disponible en local et à distance.",
+    csub: "Disponible au Maroc pour de nouveaux projets en local ou à distance. Contactez-moi, je répondrai rapidement.",
+    svc1t: "Identité Visuelle", svc1d: "Logo, charte graphique et guide de marque complet adapté à votre vision.",
+    svc2t: "Supports Marketing", svc2d: "Brochures, bannières, flyers et campagnes pour renforcer votre visibilité.",
+    svc3t: "Réseaux Sociaux", svc3d: "Contenu visuel cohérent et engageant pour toutes les plateformes sociales.",
+    svc4t: "Support IT", svc4d: "Installation matériel et logiciel, configuration réseau et gestion IT.",
+    fn: "Votre Nom", fe: "Adresse Email", fs: "Sujet", fm: "Parlez-moi de votre projet...", fb: "Envoyer →",
+    expb: "6+", exps: "Ans<br>Exp.", copy: "© 2025 — Tous Droits Réservés", dir: "ltr"
   },
   ar: {
-    dir: "rtl",
-    "nav-portfolio": "الأعمال",
-    "nav-about": "عني",
-    "nav-experience": "الخبرات",
-    "nav-services": "الخدمات",
-    "nav-contact": "تواصل",
-    "svc1-title": "هوية بصرية",
-    "svc1-desc": "لوغو، نظام ألوان، خطوط، وإرشادات علامة تجارية كاملة مصممة لرؤيتك.",
-    "svc2-title": "مواد تسويقية",
-    "svc2-desc": "كتيبات، بنرات، فلايرات، وحملات ترويجية تعزز حضور علامتك التجارية.",
-    "svc3-title": "تصميم سوشيال ميديا",
-    "svc3-desc": "محتوى بصري متسق وجذاب لجميع المنصات لتنمية جمهورك.",
-    "svc4-title": "دعم تقني IT",
-    "svc4-desc": "تركيب أجهزة وبرامج، إعداد الشبكات، وإدارة البنية التحتية التقنية.",
-    "ph-name": "اسمك الكامل",
-    "ph-email": "البريد الإلكتروني",
-    "ph-subject": "الموضوع",
-    "ph-msg": "أخبرني عن مشروعك...",
-    "btn-send": "إرسال الرسالة ←",
-    "exp-badge-big": "+6",
-    "exp-badge-small": "سنوات<br>خبرة"
+    badge: "مصمم جرافيك وأخصائي IT — فاس، المغرب",
+    title: "مصمم إبداعي · أخصائي تقنية",
+    desc: "مصمم جرافيك وأخصائي تقنية معلومات بخبرة أكثر من 6 سنوات داخل المغرب وخارجه. متخصص في الهويات البصرية والمواد التسويقية والدعم التقني. متوفر حالياً بالمغرب.",
+    btn1: "اكتشف أعمالي", btn2: "Behance ↗", btncv: "تحميل السيفي",
+    hire: "تواصل",
+    s1n: "سنوات خبرة", s2n: "مشروع", s3n: "منصة", s4n: "نمو العلامة",
+    sec1: "01 — الأعمال", sec2: "02 — الخبرات", sec3: "03 — عني", sec4: "04 — الخدمات", sec5: "05 — التواصل",
+    t1: "مختارات", t1y: "الأعمال",
+    t2: "المسيرة", t2y: "المهنية",
+    t3a: "عقل", t3ay: "مبدع", t3b: "روح", t3by: "تقنية",
+    t4: "ماذا", t4y: "أقدم",
+    t5a: "لنعمل", t5b: "معاً",
+    about1: "مصمم جرافيك وأخصائي IT بخبرة تمتد لأكثر من 6 سنوات داخل المغرب وخارجه. أجمع بين الحس البصري الإبداعي والكفاءة التقنية لتقديم حلول متكاملة.",
+    about2: "حاصل على دبلوم في الشبكات الإعلامية من مركز الأمل بفاس. أتحدث العربية كلغة أم، والفرنسية، والإنجليزية. متوفر بفاس للعمل محلياً وعن بُعد.",
+    csub: "متوفر حالياً بالمغرب للمشاريع الجديدة محلياً وعن بُعد. تواصل معي وسأرد في أقرب وقت.",
+    svc1t: "هوية بصرية", svc1d: "لوغو، نظام ألوان، خطوط، وإرشادات علامة تجارية كاملة مصممة لرؤيتك.",
+    svc2t: "مواد تسويقية", svc2d: "كتيبات، بنرات، فلايرات، وحملات ترويجية تعزز حضور علامتك التجارية.",
+    svc3t: "تصميم سوشيال ميديا", svc3d: "محتوى بصري متسق وجذاب لجميع المنصات لتنمية جمهورك.",
+    svc4t: "دعم تقني IT", svc4d: "تركيب أجهزة وبرامج، إعداد الشبكات، وإدارة البنية التحتية التقنية.",
+    fn: "اسمك الكامل", fe: "البريد الإلكتروني", fs: "الموضوع", fm: "أخبرني عن مشروعك...", fb: "إرسال الرسالة ←",
+    expb: "+6", exps: "سنوات<br>خبرة", copy: "© 2025 — جميع الحقوق محفوظة", dir: "rtl"
   }
 };
 
-let currentLang = 'en';
-
 function setLang(lang) {
-  currentLang = lang;
-  const t = translations[lang];
+  var t = T[lang];
+  if (!t) return;
 
   // Direction
   document.documentElement.setAttribute('dir', t.dir);
   document.documentElement.setAttribute('lang', lang);
 
   // Active button
-  document.querySelectorAll('.lang-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.toLowerCase() === lang);
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
   });
 
-  // All data-en/fr/ar elements
-  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
-    el.innerHTML = el.getAttribute('data-' + lang);
-  });
+  // Hero
+  var hb = document.querySelector('.hero-badge');
+  if (hb) hb.textContent = t.badge;
+  var ht = document.querySelector('.hero-title');
+  if (ht) ht.textContent = t.title;
+  var hd = document.querySelector('.hero-desc span, .hero-desc');
+  if (hd) hd.textContent = t.desc;
 
-  // Nav links
-  const navLinks = document.querySelectorAll('.nav-links a');
-  const keys = ['nav-portfolio','nav-about','nav-experience','nav-services','nav-contact'];
-  navLinks.forEach((a, i) => { if(t[keys[i]]) a.textContent = t[keys[i]]; });
+  // Buttons
+  var bp = document.getElementById('btn-portfolio');
+  if (bp) bp.textContent = t.btn1;
+  var cl = document.getElementById('cv-label');
+  if (cl) cl.textContent = t.btncv;
+  var nh = document.getElementById('nav-hire');
+  if (nh) nh.textContent = t.hire;
+
+  // Stats
+  var sl = document.querySelectorAll('.stat-l');
+  var skeys = ['s1n','s2n','s3n','s4n'];
+  sl.forEach(function(el, i) { if (t[skeys[i]]) el.textContent = t[skeys[i]]; });
+
+  // Section labels
+  var secEls = document.querySelectorAll('.sec-label');
+  var secKeys = ['sec1','sec2','sec3','sec4','sec5'];
+  secEls.forEach(function(el, i) { if (t[secKeys[i]]) el.textContent = t[secKeys[i]]; });
+
+  // Section titles - rebuild
+  var titles = document.querySelectorAll('.sec-title');
+  if (titles[0]) titles[0].innerHTML = t.t1 + ' <span>' + t.t1y + '</span>';
+  if (titles[1]) titles[1].innerHTML = t.t2 + ' <span>' + t.t2y + '</span>';
+  if (titles[2]) titles[2].innerHTML = t.t3a + ' <span>' + t.t3ay + '</span><br>' + t.t3b + ' <span>' + t.t3by + '</span>';
+  if (titles[3]) titles[3].innerHTML = t.t4 + ' <span>' + t.t4y + '</span>';
+
+  // Contact title
+  var ctitle = document.querySelector('.contact-bigtext');
+  if (ctitle) ctitle.innerHTML = t.t5a + '<br><span>' + t.t5b + '</span>';
+
+  // About texts
+  var atexts = document.querySelectorAll('.about-text');
+  if (atexts[0]) atexts[0].innerHTML = t.about1;
+  if (atexts[1]) atexts[1].innerHTML = t.about2;
+
+  // Contact sub
+  var csub = document.querySelector('.contact-sub span, .contact-sub');
+  if (csub) csub.textContent = t.csub;
 
   // Services
-  ['svc1','svc2','svc3','svc4'].forEach(k => {
-    const cards = document.querySelectorAll('.svc-title, .svc-desc');
-  });
-  document.querySelectorAll('.svc-card').forEach((card, i) => {
-    const k = 'svc'+(i+1);
-    const title = card.querySelector('.svc-title');
-    const desc = card.querySelector('.svc-desc');
-    if(title && t[k+'-title']) title.textContent = t[k+'-title'];
-    if(desc && t[k+'-desc']) desc.textContent = t[k+'-desc'];
+  var scards = document.querySelectorAll('.svc-card');
+  var svcKeys = ['svc1','svc2','svc3','svc4'];
+  scards.forEach(function(card, i) {
+    var k = svcKeys[i];
+    var tt = card.querySelector('.svc-title');
+    var dd = card.querySelector('.svc-desc');
+    if (tt && t[k+'t']) tt.textContent = t[k+'t'];
+    if (dd && t[k+'d']) dd.textContent = t[k+'d'];
   });
 
-  // Form placeholders
-  ['name','email','subject','msg'].forEach(k => {
-    const el = document.getElementById('ph-'+k);
-    if(el && t['ph-'+k]) el.placeholder = t['ph-'+k];
+  // Form
+  var fields = {fn:'ph-name', fe:'ph-email', fs:'ph-subject', fm:'ph-msg'};
+  Object.keys(fields).forEach(function(k) {
+    var el = document.getElementById(fields[k]);
+    if (el) el.placeholder = t[k];
   });
-  const btnSend = document.getElementById('btn-send');
-  if(btnSend && t['btn-send']) btnSend.textContent = t['btn-send'];
+  var bs = document.getElementById('btn-send');
+  if (bs) bs.textContent = t.fb;
 
   // Experience badge
-  const expBadge = document.querySelector('.about-badge-exp');
-  if(expBadge) {
-    const bb = t["exp-badge-big"], bs = t["exp-badge-small"];
-    expBadge.innerHTML = `<span class="big">${bb}</span><span class="small">${bs}</span>`;
-  }
+  var eb = document.querySelector('.about-badge-exp');
+  if (eb) eb.innerHTML = '<span class="big">' + t.expb + '</span><span class="small">' + t.exps + '</span>';
 
-  // Marquee - change language
-  const marqueeItems = document.querySelectorAll('.m-item');
-  const marqueeEN = ['Brand Identity','Logo Design','Adobe Photoshop','Social Media','After Effects','IT Support','Print Design','Illustrator'];
-  const marqueeFR = ['Identité Visuelle','Création Logo','Adobe Photoshop','Réseaux Sociaux','After Effects','Support IT','Impression','Illustrator'];
-  const marqueeAR = ['هوية بصرية','تصميم لوغو','فوتوشوب','سوشيال ميديا','أفتر إفكتس','دعم تقني','مطبوعات','إليستريتور'];
-  const marqueeData = {en: marqueeEN, fr: marqueeFR, ar: marqueeAR};
-  marqueeItems.forEach((item, i) => {
-    const idx = i % marqueeData[lang].length;
-    const dot = item.querySelector('.m-dot');
+  // Footer copy
+  var fc = document.getElementById('foot-copy');
+  if (fc) fc.textContent = t.copy;
+
+  // Marquee
+  var mItems = {
+    en: ['Brand Identity','Logo Design','Adobe Photoshop','Social Media','After Effects','IT Support','Print Design','Illustrator'],
+    fr: ['Identité Visuelle','Création Logo','Adobe Photoshop','Réseaux Sociaux','After Effects','Support IT','Impression','Illustrator'],
+    ar: ['هوية بصرية','تصميم لوغو','فوتوشوب','سوشيال ميديا','أفتر إفكتس','دعم تقني','مطبوعات','إليستريتور']
+  };
+  document.querySelectorAll('.m-item').forEach(function(item, i) {
+    var words = mItems[lang];
+    var dot = document.createElement('span');
+    dot.className = 'm-dot';
     item.innerHTML = '';
-    item.appendChild(dot || (() => { const d = document.createElement('span'); d.classNa
+    item.appendChild(dot);
+    item.appendChild(document.createTextNode(words[i % words.length]));
+  });
+
+  localStorage.setItem('lang', lang);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      setLang(this.getAttribute('data-lang'));
+    });
+  });
+  var saved = localStorage.getItem('lang') || 'en';
+  setLang(saved);
+});
+</script>
+</body>
+</html>
