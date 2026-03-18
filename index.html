@@ -1508,9 +1508,147 @@ button:focus-visible{
 /* Footer link hover */
 .foot-soc a{transition:color .3s, transform .3s;}
 .foot-soc a:hover{color:var(--y);transform:translateY(-2px);}
+
+/* ═══════════════════════════════════════════════
+   PERFORMANCE & ANIMATION UPGRADES
+═══════════════════════════════════════════════ */
+
+/* GPU acceleration for animated elements */
+.hud-inner,.hud-svg,.hud-photo,
+.cs-card,.exp-card,.tst-card,
+.svc-tier,.faq-item,.ctt-right{
+  will-change:transform;
+  transform:translateZ(0);
+}
+/* Reset will-change after animation to save memory */
+.on.reveal,.cs-card:not(:hover){
+  will-change:auto;
+}
+
+/* Better section transitions */
+section{
+  contain:layout style;
+}
+
+/* Smooth image loading */
+img{
+  background-color:var(--card);
+  color:transparent;
+}
+
+/* Better scroll performance */
+.exp-scroll,.tst-scroll{
+  will-change:scroll-position;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Reduce motion for battery saver / accessibility */
+@media(prefers-reduced-motion:reduce){
+  *,::before,::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  .hud-stars,.hud-meteor{display:none;}
+}
+
+/* Better font rendering */
+body{
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+
+/* Prevent layout shift on fonts */
+@font-face{
+  font-display:swap;
+}
+
+/* Better button performance */
+.btn-wa,.btn-primary,.btn-ghost,.btn-cv,
+.btn-hire,.btn-dark,.svc-tier-btn{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+
+/* Optimize images in cards */
+.cs-img img,.cs-img-main img,.hud-photo img,.about-frame img{
+  content-visibility:auto;
+}
+
+/* Better skeleton loading state */
+.cs-img:empty,.cs-img-main:empty{
+  background:linear-gradient(90deg,var(--card) 25%,var(--surface) 50%,var(--card) 75%);
+  background-size:200% 100%;
+  animation:skeleton 1.5s ease-in-out infinite;
+}
+@keyframes skeleton{
+  0%{background-position:200% 0;}
+  100%{background-position:-200% 0;}
+}
+
+/* Contact form success/error states */
+#form-success{
+  animation:slideDown .3s ease;
+}
+#form-error{
+  animation:slideDown .3s ease;
+}
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* Improved scrollbar */
+html{
+  scrollbar-width:thin;
+  scrollbar-color:rgba(245,166,35,.3) transparent;
+}
+
+/* Better focus states for keyboard navigation */
+*:focus-visible{
+  outline:2px solid var(--y);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+/* Image lazy loading blur placeholder */
+img[loading="lazy"]{
+  transition:filter .3s ease;
+}
+
+/* Intersection observer based animations */
+.reveal{
+  opacity:0;
+  transform:translateY(22px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.on{
+  opacity:1 !important;
+  transform:none !important;
+}
+@media(hover:none){
+  .reveal{opacity:1;transform:none;transition:none;}
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<!-- DNS prefetch for external resources -->
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<!-- Preconnect CDN -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<!-- Mobile web app -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Zakaria Rhazal">
+<!-- Prevent content shift -->
+<meta http-equiv="x-dns-prefetch-control" content="on">
 </head>
 <body>
 <!-- PROGRESS -->
@@ -2147,6 +2285,12 @@ button:focus-visible{
       <div class="cf-line" aria-hidden="true"></div>
     </div>
     <button class="btn-dark" id="btn-send" type="button">Send Message &rarr;</button>
+  <div id="form-success" style="display:none;margin-top:.8rem;padding:.75rem 1rem;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#166534;font-size:.78rem;font-weight:700;text-align:center;">
+    ✅ Message sent! I'll reply within 2 hours.
+  </div>
+  <div id="form-error" style="display:none;margin-top:.8rem;padding:.75rem 1rem;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#991b1b;font-size:.78rem;font-weight:700;text-align:center;">
+    ❌ Could not send. Please try WhatsApp instead.
+  </div>
   </div>
 </section>
 
@@ -2351,85 +2495,171 @@ function initGSAP(){
   if(typeof gsap==="undefined")return;
   gsap.registerPlugin(ScrollTrigger);
 
-  /* Progress bar */
+  /* ── Ease preset ── */
+  var E="power3.out", ES="power3.inOut";
+
+  /* ── Progress bar scrub ── */
   gsap.to(g("prog"),{width:"100%",ease:"none",
     scrollTrigger:{trigger:"body",start:"top top",end:"bottom bottom",scrub:true}});
 
-  /* Portfolio cards — simple fade in, no heavy 3D */
-  gsap.from(".cs-card",{
-    scrollTrigger:{trigger:"#work",start:"top 76%"},
-    y:40,opacity:0,stagger:{amount:.4},duration:.75,ease:"power3.out"});
+  /* ── HERO elements — stagger from bottom ── */
+  var heroEls=document.querySelectorAll(
+    ".hero-avail,.hero-badge,.hero-sub,.hero-desc,.hero-btns>*,.hero-social,.stat-n"
+  );
+  if(heroEls.length && !window.matchMedia("(hover:none)").matches){
+    gsap.fromTo(heroEls,
+      {opacity:0,y:24},
+      {opacity:1,y:0,stagger:.07,duration:.65,ease:E,delay:.5}
+    );
+  }
 
-  /* Experience horizontal scroll (desktop) */
+  /* ── Section titles — slide + fade ── */
+  document.querySelectorAll(".sec-title").forEach(function(el){
+    gsap.fromTo(el,
+      {opacity:0,y:30,skewY:1},
+      {opacity:1,y:0,skewY:0,duration:.85,ease:ES,
+        scrollTrigger:{trigger:el,start:"top 88%",toggleActions:"play none none none"}}
+    );
+  });
+
+  /* ── Portfolio cards — staggered cascade ── */
+  gsap.from(".cs-card",{
+    scrollTrigger:{trigger:"#work",start:"top 78%"},
+    y:45,opacity:0,
+    stagger:{amount:.5,from:"start"},
+    duration:.8,ease:E
+  });
+
+  /* ── Big card — special entrance ── */
+  gsap.from(".cs-card.big",{
+    scrollTrigger:{trigger:".cs-card.big",start:"top 82%"},
+    scale:.97,opacity:0,duration:1,ease:E
+  });
+
+  /* ── Experience horizontal scroll (desktop only) ── */
   var expTrack=g("exp-track");
-  if(expTrack&&window.innerWidth>1024){
-    var cards=expTrack.querySelectorAll(".exp-card");
+  if(expTrack && window.innerWidth>1024){
+    var expCards=expTrack.querySelectorAll(".exp-card");
     var totalW=expTrack.scrollWidth-expTrack.parentElement.clientWidth;
     var tlProg=g("tl-prog");
     if(tlProg)gsap.set(tlProg,{strokeDasharray:1000,strokeDashoffset:1000});
-    gsap.set(cards,{opacity:0,y:15});
+    gsap.set(expCards,{opacity:0,y:20});
     gsap.to(expTrack,{x:-totalW,ease:"none",
       scrollTrigger:{trigger:".exp-section",start:"top top",
-        end:"+="+totalW*1.2,pin:true,scrub:1,anticipatePin:1,
+        end:"+="+totalW*1.3,pin:true,scrub:1,anticipatePin:1,
         onUpdate:function(self){
           if(tlProg)gsap.set(tlProg,{strokeDashoffset:1000*(1-self.progress)});
-          cards.forEach(function(c,i){
-            if(self.progress>i/cards.length*.7)gsap.to(c,{opacity:1,y:0,duration:.4});
+          expCards.forEach(function(c,i){
+            var threshold=i/expCards.length*.65;
+            if(self.progress>threshold)gsap.to(c,{opacity:1,y:0,duration:.45,ease:E});
           });
         }
       }
     });
   }
 
-  /* About photo — subtle only */
+  /* ── About photo — grayscale to color ── */
   var aImg=document.querySelector(".about-frame img");
   if(aImg){
-    gsap.fromTo(aImg,{filter:"grayscale(40%)"},{filter:"grayscale(0%)",
-      scrollTrigger:{trigger:".about-frame",start:"top 80%",end:"top 30%",scrub:true}});
+    gsap.fromTo(aImg,
+      {filter:"grayscale(60%) brightness(.85)"},
+      {filter:"grayscale(0%) brightness(1)",
+        scrollTrigger:{trigger:".about-frame",start:"top 80%",end:"top 25%",scrub:1}}
+    );
   }
 
-  /* Skill bars */
-  document.querySelectorAll(".sk-fill").forEach(function(f){
-    var w=f.getAttribute("data-w")||"80%";
-    gsap.fromTo(f,{width:0},{width:w,duration:1.2,ease:"power3.out",
-      scrollTrigger:{trigger:f,start:"top 87%",toggleActions:"play none none reset"}});
+  /* ── About text — word by word feel ── */
+  gsap.from(".about-text",{
+    scrollTrigger:{trigger:".about-text",start:"top 85%"},
+    opacity:0,y:20,duration:.9,ease:E
   });
 
-  /* Services */
-  gsap.from(".svc-tier",{scrollTrigger:{trigger:"#services",start:"top 76%"},
-    y:35,opacity:0,stagger:.1,duration:.7,ease:"power3.out"});
+  /* ── Skill bars — animated fill ── */
+  document.querySelectorAll(".sk-fill").forEach(function(f){
+    var w=f.getAttribute("data-w")||"80%";
+    gsap.fromTo(f,{width:0},{width:w,duration:1.4,ease:"power4.out",
+      scrollTrigger:{trigger:f,start:"top 88%",toggleActions:"play none none reset"}
+    });
+  });
 
-  /* Testimonials */
-  gsap.from(".tst-card",{scrollTrigger:{trigger:"#testimonials",start:"top 82%"},
-    y:25,opacity:0,stagger:.08,duration:.65,ease:"power3.out"});
+  /* ── Services — fan out ── */
+  gsap.from(".svc-tier",{
+    scrollTrigger:{trigger:"#services",start:"top 78%"},
+    y:40,opacity:0,stagger:{amount:.3,from:"start"},
+    duration:.75,ease:E
+  });
 
-  /* CTA banner - IntersectionObserver */
+  /* ── Testimonials — slide from right ── */
+  gsap.from(".tst-card",{
+    scrollTrigger:{trigger:"#testimonials",start:"top 82%"},
+    x:30,opacity:0,stagger:.09,duration:.7,ease:E
+  });
+
+  /* ── FAQ items ── */
+  gsap.from(".faq-item",{
+    scrollTrigger:{trigger:"#faq",start:"top 80%"},
+    y:25,opacity:0,stagger:.06,duration:.65,ease:E
+  });
+
+  /* ── CTA banner — IntersectionObserver (reliable on all devices) ── */
   (function(){
     var b=document.getElementById("cta-banner");
     if(!b)return;
     new IntersectionObserver(function(e){
       if(e[0].isIntersecting){b.classList.add("cta-visible");}
-    },{threshold:.15}).observe(b);
+    },{threshold:.12}).observe(b);
   })();
 
-  /* Contact */
-  gsap.from(".ctt-right",{scrollTrigger:{trigger:"#contact",start:"top 76%"},
-    x:40,opacity:0,duration:.85,ease:"power3.out"});
-
-  /* General reveals */
-  document.querySelectorAll(".reveal").forEach(function(el){
-    gsap.fromTo(el,{opacity:0,y:18},{opacity:1,y:0,duration:.7,ease:"power3.out",
-      scrollTrigger:{trigger:el,start:"top 88%",toggleActions:"play none none none"}});
+  /* ── Contact left — slide up ── */
+  gsap.from(".ctt-left",{
+    scrollTrigger:{trigger:"#contact",start:"top 80%"},
+    y:30,opacity:0,duration:.8,ease:E
   });
 
-  /* Testi metrics counter */
-  document.querySelectorAll(".tst-metric-n[data-target]").forEach(function(el){
+  /* ── Contact right — slide from right ── */
+  gsap.from(".ctt-right",{
+    scrollTrigger:{trigger:"#contact",start:"top 76%"},
+    x:50,opacity:0,duration:.9,ease:E
+  });
+
+  /* ── Reveal elements (generic fallback) ── */
+  document.querySelectorAll(".reveal:not(.cs-card):not(.svc-tier):not(.faq-item)").forEach(function(el){
+    gsap.fromTo(el,
+      {opacity:0,y:20},
+      {opacity:1,y:0,duration:.75,ease:E,
+        scrollTrigger:{trigger:el,start:"top 88%",toggleActions:"play none none none"}}
+    );
+  });
+
+  /* ── Stats counter ── */
+  document.querySelectorAll(".tst-metric-n[data-target],.stat-n[data-target]").forEach(function(el){
     var tgt=parseInt(el.getAttribute("data-target")||0);
-    gsap.to({v:0},{v:tgt,duration:1.5,ease:"power2.out",
-      scrollTrigger:{trigger:el,start:"top 85%",toggleActions:"play none none reset"},
-      onUpdate:function(){el.textContent=Math.floor(this.targets()[0].v)+"+";}
+    var suffix=el.getAttribute("data-suffix")||"+";
+    gsap.to({v:0},{v:tgt,duration:1.8,ease:"power2.out",
+      scrollTrigger:{trigger:el,start:"top 88%",toggleActions:"play none none reset"},
+      onUpdate:function(){el.textContent=Math.floor(this.targets()[0].v)+suffix;}
     });
   });
+
+  /* ── Marquee pause on scroll stop ── */
+  var mq=document.querySelector(".mq-track");
+  if(mq){
+    ScrollTrigger.create({
+      trigger:".mq-bar",start:"top 95%",end:"bottom 5%",
+      onEnter:function(){mq.style.animationPlayState="running";},
+      onLeave:function(){mq.style.animationPlayState="paused";},
+      onEnterBack:function(){mq.style.animationPlayState="running";},
+      onLeaveBack:function(){mq.style.animationPlayState="paused";}
+    });
+  }
+
+  /* ── Parallax subtle on hero HUD ── */
+  if(window.innerWidth>1024){
+    gsap.to(".hud-inner",{
+      y:-30,ease:"none",
+      scrollTrigger:{trigger:".hero",start:"top top",end:"bottom top",scrub:1.5}
+    });
+  }
 }
 
 /*=== HERO ANIMATIONS (no particles, no 3D tilt) ===*/
@@ -2966,40 +3196,172 @@ document.addEventListener("DOMContentLoaded",function(){
     sections.forEach(function(s){io.observe(s);});
   })();
 
-  /* ── BETTER FORM SUBMIT ── */
+  /* ── EMAILJS CONTACT FORM ── */
   (function(){
+    /* ─────────────────────────────────────────────────
+       SETUP: 3 steps to activate real email sending:
+       1. Create free account at https://www.emailjs.com
+       2. Create an Email Service (Gmail recommended)
+       3. Create Email Template with these variables:
+          {{from_name}}, {{from_email}}, {{services}}, {{message}}
+       Then replace the 3 values below with your own.
+    ───────────────────────────────────────────────── */
+    var EMAILJS_PUBLIC_KEY  = "SnG_A6YZohZqO6Ubt";   // From EmailJS Dashboard → Account
+    var EMAILJS_SERVICE_ID  = "service_utapz8p";   // From EmailJS → Email Services
+    var EMAILJS_TEMPLATE_ID = "template_2frp6a7";  // From EmailJS → Email Templates
+    var emailjsReady = (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY");
+
+    if(emailjsReady && typeof emailjs !== "undefined"){
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+
     var btn=g("btn-send");
     if(!btn)return;
+
     btn.addEventListener("click",function(){
-      var name=g("ph-name"),email=g("ph-email"),msg=g("ph-msg");
-      if(!name||!email||!msg)return;
-      var ok=true;
-      [name,email].forEach(function(el){
+      var nameEl=g("ph-name"),emailEl=g("ph-email"),msgEl=g("ph-msg");
+      if(!nameEl||!emailEl||!msgEl)return;
+
+      /* Validation */
+      var valid=true;
+      [nameEl,emailEl,msgEl].forEach(function(el){
         if(!el.value.trim()){
           el.style.borderColor="rgba(255,80,80,.7)";
-          ok=false;
-          setTimeout(function(){el.style.borderColor="";},2000);
+          valid=false;
+          setTimeout(function(){el.style.borderColor="";},2500);
         }
       });
-      if(!ok)return;
+      if(!valid)return;
+
+      /* Email validation */
+      var emailRe=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRe.test(emailEl.value)){
+        emailEl.style.borderColor="rgba(255,80,80,.7)";
+        setTimeout(function(){emailEl.style.borderColor="";},2500);
+        return;
+      }
+
       var svcs=[];
       document.querySelectorAll(".cf-checks input:checked").forEach(function(c){
         svcs.push(c.value);
       });
-      var body="Hi Zakaria! I'm "+name.value.trim()+
-        (svcs.length?" — I need: "+svcs.join(", "):".")+
-        "\n\nMessage: "+msg.value.trim()+
-        "\n\nEmail: "+email.value.trim();
-      var url="https://wa.me/212706652764?text="+encodeURIComponent(body);
+
+      /* Loading state */
+      var origText=btn.textContent;
       btn.textContent="Sending...";
-      btn.style.opacity=".7";
-      setTimeout(function(){
-        window.open(url,"_blank");
-        btn.textContent="Send Message →";
+      btn.style.opacity=".65";
+      btn.disabled=true;
+
+      function resetBtn(){
+        btn.textContent=origText;
         btn.style.opacity="";
-        name.value="";email.value="";msg.value="";
+        btn.disabled=false;
+      }
+      function clearForm(){
+        nameEl.value="";emailEl.value="";msgEl.value="";
         document.querySelectorAll(".cf-checks input").forEach(function(c){c.checked=false;});
-      },400);
+      }
+      function showSuccess(){
+        var ok=document.getElementById("form-success");
+        if(ok){ok.style.display="block";setTimeout(function(){ok.style.display="none";},5000);}
+      }
+      function showError(){
+        var err=document.getElementById("form-error");
+        if(err){err.style.display="block";setTimeout(function(){err.style.display="none";},5000);}
+      }
+
+      /* Try EmailJS first, fallback to WhatsApp */
+      if(emailjsReady && typeof emailjs !== "undefined"){
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          from_name:  nameEl.value.trim(),
+          from_email: emailEl.value.trim(),
+          services:   svcs.length ? svcs.join(", ") : "Not specified",
+          message:    msgEl.value.trim(),
+          to_email:   "zakariaghazal06@gmail.com",
+        }).then(function(){
+          resetBtn();
+          clearForm();
+          showSuccess();
+        }, function(err){
+          console.warn("EmailJS error:", err);
+          resetBtn();
+          /* Fallback to WhatsApp on error */
+          _sendViaWhatsApp(nameEl.value,emailEl.value,msgEl.value,svcs);
+          clearForm();
+        });
+      } else {
+        /* EmailJS not configured — use WhatsApp */
+        setTimeout(function(){
+          _sendViaWhatsApp(nameEl.value,emailEl.value,msgEl.value,svcs);
+          resetBtn();
+          clearForm();
+          showSuccess();
+        },400);
+      }
+    });
+
+    function _sendViaWhatsApp(name,email,msg,svcs){
+      var body="Hi Zakaria! I'm "+name.trim()+
+        (svcs.length?" — I need: "+svcs.join(", "):".")+
+        "\n\nMessage: "+msg.trim()+
+        "\n\nEmail: "+email.trim();
+      window.open("https://wa.me/212706652764?text="+encodeURIComponent(body),"_blank");
+    }
+  })();
+
+
+  /* ── PERFORMANCE: Lazy reveal with IntersectionObserver ── */
+  (function(){
+    if(!("IntersectionObserver" in window))return;
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("on");
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:.08,rootMargin:"0px 0px -40px 0px"});
+    document.querySelectorAll(".reveal").forEach(function(el){
+      io.observe(el);
+    });
+  })();
+
+  /* ── PERFORMANCE: Passive scroll listeners ── */
+  (function(){
+    /* Upgrade all scroll listeners to passive */
+    var _addEventListener = EventTarget.prototype.addEventListener;
+    var passiveEvents = ["touchstart","touchmove","wheel","mousewheel"];
+    EventTarget.prototype.addEventListener = function(type,fn,opts){
+      if(passiveEvents.indexOf(type) >= 0 && typeof opts !== "object"){
+        opts = {passive:true, capture:!!opts};
+      }
+      return _addEventListener.call(this,type,fn,opts);
+    };
+  })();
+
+  /* ── PERFORMANCE: Image error fallback ── */
+  document.querySelectorAll("img").forEach(function(img){
+    img.addEventListener("error",function(){
+      this.style.opacity="0.3";
+      this.style.filter="grayscale(100%)";
+    });
+  });
+
+  /* ── PERFORMANCE: Preload next section images on scroll ── */
+  (function(){
+    var sections=["#work","#about","#testimonials"];
+    sections.forEach(function(sel){
+      var section=document.querySelector(sel);
+      if(!section)return;
+      var io=new IntersectionObserver(function(entries){
+        if(entries[0].isIntersecting){
+          section.querySelectorAll("img[loading='lazy']").forEach(function(img){
+            img.loading="eager";
+          });
+          io.disconnect();
+        }
+      },{rootMargin:"200px"});
+      io.observe(section);
     });
   })();
 
