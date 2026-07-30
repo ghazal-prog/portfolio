@@ -9,6 +9,7 @@
 <meta property="og:description" content="Brand identities, logos and marketing materials for businesses across Morocco and the Gulf.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0d0d10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%230d0d10' stroke='%23c9a227' stroke-width='4'/%3E%3Ctext x='50' y='63' font-family='Georgia,serif' font-size='38' font-weight='700' fill='%23c9a227' text-anchor='middle'%3EZR%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
@@ -64,6 +65,7 @@ header.scrolled{background:rgba(13,13,16,.9);backdrop-filter:blur(14px);box-shad
 #mobileMenu{position:fixed;inset:0;background:var(--ink);z-index:490;display:none;flex-direction:column;align-items:center;justify-content:center;gap:1.6rem}
 #mobileMenu.open{display:flex}
 #mobileMenu a{font-family:var(--disp);font-size:1.6rem;color:var(--text)}
+#mobileMenu a.btn{font-family:var(--body);font-size:.9rem}
 
 @media(max-width:900px){
   .nav-links{display:none}
@@ -196,9 +198,24 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
 /* ---- REVEAL ---- */
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .reveal.on{opacity:1;transform:none}
+
+/* ---- SCROLL BACKGROUND FX ---- */
+.bg-fx{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-fx span{position:absolute;border-radius:50%;filter:blur(100px);will-change:transform}
+.bg-orb-1{width:46vw;height:46vw;max-width:560px;max-height:560px;top:-14vw;left:-10vw;background:radial-gradient(circle,var(--gold) 0%,transparent 72%);opacity:.16}
+.bg-orb-2{width:36vw;height:36vw;max-width:460px;max-height:460px;top:38vh;right:-12vw;background:radial-gradient(circle,var(--teal) 0%,transparent 72%);opacity:.18}
+.bg-orb-3{width:40vw;height:40vw;max-width:500px;max-height:500px;bottom:-16vw;left:22vw;background:radial-gradient(circle,var(--gold) 0%,transparent 72%);opacity:.12}
+@media(max-width:720px){.bg-fx{display:none}}
+@media(prefers-reduced-motion:reduce){.bg-fx span{transform:none!important}}
 </style>
 </head>
 <body>
+
+<div class="bg-fx" aria-hidden="true">
+  <span class="bg-orb-1"></span>
+  <span class="bg-orb-2"></span>
+  <span class="bg-orb-3"></span>
+</div>
 
 <header id="siteHeader">
   <div class="wrap nav-inner">
@@ -222,6 +239,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
   <a href="#services">Services</a>
   <a href="#experience">Experience</a>
   <a href="#contact">Contact</a>
+  <a class="btn btn-line" href="CV_Zakaria_Rhazal.pdf" download>Download CV</a>
   <a class="btn btn-gold" href="https://wa.me/212706652764?text=Hi%20Zakaria%2C%20I%20found%20your%20portfolio%20and%20I%27m%20interested%20in%20working%20with%20you." target="_blank" rel="noopener">Hire Me</a>
 </div>
 
@@ -244,7 +262,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
         </div>
       </div>
       <div class="hero-visual">
-        <img src="images/profile.jpg" alt="Zakaria Rhazal" width="800" height="707" fetchpriority="high">
+        <img src="profile.jpg" alt="Zakaria Rhazal" width="800" height="707" fetchpriority="high">
         <div class="hero-tag">Fes, Morocco — Brand Identity &amp; IT</div>
       </div>
     </div>
@@ -252,7 +270,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
 
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track" id="marqueeTrack">
-      <span>Brand Identity</span><span class="dot">Logo Design</span><span class="dot">Social Media</span><span class="dot">Print Design</span><span class="dot">Adobe Photoshop</span><span class="dot">Illustrator</span><span class="dot">After Effects</span><span class="dot">IT Support &amp; Networking</span>
+      <span>Brand Identity</span><span class="dot">Logo Design</span><span class="dot">Social Media</span><span class="dot">Print Design</span><span class="dot">Adobe Photoshop</span><span class="dot">Illustrator</span><span class="dot">After Effects</span><span class="dot">IT Support &amp; Networking</span><span class="dot">Brand Identity</span><span class="dot">Logo Design</span><span class="dot">Social Media</span><span class="dot">Print Design</span><span class="dot">Adobe Photoshop</span><span class="dot">Illustrator</span><span class="dot">After Effects</span><span class="dot">IT Support &amp; Networking</span>
     </div>
   </div>
 
@@ -268,7 +286,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
 
       <div class="work-grid">
         <div class="card big reveal">
-          <div class="mat"><img src="images/adilux-flyers.jpg" alt="Adilux brand flyers" width="900" height="898" loading="lazy" decoding="async"></div>
+          <div class="mat"><img src="adilux-flyers.jpg" alt="Adilux brand flyers" width="900" height="898" loading="lazy" decoding="async"></div>
           <div class="card-body">
             <div class="card-num">01</div>
             <div class="card-tag">Brand Identity</div>
@@ -283,7 +301,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
         </div>
 
         <div class="card reveal">
-          <div class="mat"><img src="images/albayader-cards.jpg" alt="Al Bayader loyalty cards" width="900" height="891" loading="lazy" decoding="async"></div>
+          <div class="mat"><img src="albayader-cards.jpg" alt="Al Bayader loyalty cards" width="900" height="891" loading="lazy" decoding="async"></div>
           <div class="card-body">
             <div class="card-num">02</div>
             <div class="card-tag">Social + Print</div>
@@ -298,7 +316,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
         </div>
 
         <div class="card reveal">
-          <div class="mat"><img src="images/sultan-signage.jpg" alt="Sultan costume rentals signage" width="900" height="629" loading="lazy" decoding="async"></div>
+          <div class="mat"><img src="sultan-signage.jpg" alt="Sultan costume rentals signage" width="900" height="629" loading="lazy" decoding="async"></div>
           <div class="card-body">
             <div class="card-num">03</div>
             <div class="card-tag">Brand Identity</div>
@@ -313,7 +331,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
         </div>
 
         <div class="card reveal">
-          <div class="mat"><img src="images/noessa-logo.jpg" alt="NOËSSA logo for Nouhaila Essafi" width="900" height="938" loading="lazy" decoding="async"></div>
+          <div class="mat"><img src="noessa-logo.jpg" alt="NOËSSA logo for Nouhaila Essafi" width="900" height="938" loading="lazy" decoding="async"></div>
           <div class="card-body">
             <div class="card-num">04</div>
             <div class="card-tag">Logo Design</div>
@@ -328,7 +346,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
         </div>
 
         <div class="card reveal">
-          <div class="mat"><img src="images/alkhabeer-logo.jpg" alt="Al Khabeer luxury real estate logo" width="900" height="891" loading="lazy" decoding="async"></div>
+          <div class="mat"><img src="alkhabeer-logo.jpg" alt="Al Khabeer luxury real estate logo" width="900" height="891" loading="lazy" decoding="async"></div>
           <div class="card-body">
             <div class="card-num">05</div>
             <div class="card-tag">Logo Design</div>
@@ -343,7 +361,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
         </div>
 
         <div class="card wide reveal">
-          <div class="mat"><img src="images/tshirt-redbubble.jpg" alt="T-shirt design sold on Redbubble" width="900" height="1195" loading="lazy" decoding="async"></div>
+          <div class="mat"><img src="tshirt-redbubble.jpg" alt="T-shirt design sold on Redbubble" width="900" height="1195" loading="lazy" decoding="async"></div>
           <div class="card-body">
             <div class="card-num">06</div>
             <div class="card-tag">T-Shirt Design</div>
@@ -358,7 +376,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
         </div>
 
         <div class="card reveal">
-          <div class="mat"><img src="images/leroi-card.jpg" alt="Le Roi business card mockup" width="900" height="602" loading="lazy" decoding="async"></div>
+          <div class="mat"><img src="leroi-card.jpg" alt="Le Roi business card mockup" width="900" height="602" loading="lazy" decoding="async"></div>
           <div class="card-body">
             <div class="card-num">07</div>
             <div class="card-tag">Print Design</div>
@@ -373,7 +391,7 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
         </div>
 
         <div class="card reveal">
-          <div class="mat"><img src="images/aljoud-logo.jpg" alt="Al Joud calligraphy logo" width="900" height="852" loading="lazy" decoding="async"></div>
+          <div class="mat"><img src="aljoud-logo.jpg" alt="Al Joud calligraphy logo" width="900" height="852" loading="lazy" decoding="async"></div>
           <div class="card-body">
             <div class="card-num">08</div>
             <div class="card-tag">Logo Design</div>
@@ -578,8 +596,40 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0}
 
 <script>
 (function(){
+  // Graceful fallback: if an image fails to load, hide the icon instead of
+  // showing the browser's broken-image placeholder, and keep the surrounding
+  // panel background so the layout still looks intentional.
+  document.querySelectorAll('img').forEach(function(img){
+    img.addEventListener('error',function(){
+      this.style.visibility='hidden';
+    },{once:true});
+  });
+
   var header=document.getElementById('siteHeader');
   window.addEventListener('scroll',function(){header.classList.toggle('scrolled',window.scrollY>10)},{passive:true});
+
+  // Background orbs drift at different speeds/directions as the page scrolls,
+  // giving a subtle sense of depth. Skipped for reduced-motion users.
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var orbs=document.querySelectorAll('.bg-fx span');
+  if(orbs.length && !reduceMotion){
+    var speeds=[0.12,-0.09,0.06];
+    var rot=[0.02,-0.015,0.01];
+    var ticking=false;
+    function updateOrbs(){
+      var y=window.scrollY;
+      orbs.forEach(function(orb,i){
+        var speed=speeds[i%speeds.length];
+        var r=rot[i%rot.length];
+        orb.style.transform='translate3d(0,'+(y*speed)+'px,0) rotate('+(y*r)+'deg)';
+      });
+      ticking=false;
+    }
+    window.addEventListener('scroll',function(){
+      if(!ticking){requestAnimationFrame(updateOrbs);ticking=true;}
+    },{passive:true});
+    updateOrbs();
+  }
 
   var hb=document.getElementById('hamburger'), mm=document.getElementById('mobileMenu');
   hb.addEventListener('click',function(){
